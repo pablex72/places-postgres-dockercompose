@@ -1,0 +1,25 @@
+
+#COPIAR una serie de archivos de mi maquina host al sistema de archivos DOCKER
+#--> 1. para correr la aplicacion necesito el ejecutable que es .JAR
+# SOLO se tiene el target --> para obtener el JAR usar Maven con: mvn clean package
+# eso me genera el JAR que es el ejecutable de la aplicacion JAVA
+#   ENTONCES se generara un SNAPSHOT.jar en target
+
+#ENV DATABASE_URL jdbc:mariadb://localhost:3312/mydb777
+#ENV DATABASE_USERNAME root
+#ENV DATABASE_PASSWORD Password123!
+##ENV DATABASE_PLATFORM org.hibernate.dialect.MySQLDialect
+#ENV DATABASE_DRIVER org.mariadb.jdbc.Driver
+#######################################################################
+#FROM openjdk:17-jdk-slim
+#COPY target/places-0.0.1-SNAPSHOT.jar app.jar
+#EXPOSE 8080
+##ejecutar jar
+#ENTRYPOINT ["java", "-jar","app.jar"]
+# FROM maven:3.8.2-jdk-8 # for Java 8
+#########################################################
+FROM maven:3.8.5-openjdk-17
+WORKDIR /places-spring-wo-target
+COPY . .
+RUN mvn clean install
+CMD mvn spring-boot:run
